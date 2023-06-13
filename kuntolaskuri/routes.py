@@ -15,3 +15,8 @@ def login():
 def sign_up():
     if request.method == "GET":
         return render_template("sign_up.html")
+
+@routes.route("/user_page", methods=["GET"])
+def user_page():
+    if request.method == "GET":
+        return render_template("user_page.html")
