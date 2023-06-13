@@ -10,3 +10,8 @@ def index():
 def login():
     if request.method == "GET":
         return render_template("login.html")
+
+@routes.route("/sign-up", methods=["GET", "POST"])
+def sign_up():
+    if request.method == "GET":
+        return render_template("sign_up.html")
