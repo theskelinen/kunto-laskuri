@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, flash
 import kuntolaskuri.users as users
 
 routes = Blueprint("routes", __name__)
@@ -15,9 +15,11 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if users.login(username, password):
+            flash("Tervetuloa!", category="success")
             return redirect("/")
         else:
-            return render_template("login.html")
+            flash("Sisäänkirjaus epäonnistui", category="error")
+        return render_template("login.html")
 
 @routes.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
@@ -30,9 +32,11 @@ def sign_up():
         if password1 != password2:
             return render_template("sign_up.html")
         if users.register(username, password1):
+            flash("Käyttäjä luotu!", category="success")
             return redirect("/")
         else:
-            return render_template("sign_up.html")
+            flash("Rekisteröinti epäonnistui", category="error")
+        return render_template("sign_up.html")
 
 @routes.route("/user_page", methods=["GET"])
 def user_page():
