@@ -11,3 +11,19 @@ CREATE TABLE user_info (
     sex TEXT, 
     user_id INTEGER REFERENCES users
 );
+Create TABLE fitness_tests (
+    id SERIAL PRIMARY KEY,
+    test_name TEXT,
+    sex TEXT,
+    min_age INTEGER,
+    min_rep INTEGER,
+    fitness_level INTEGER,
+    meaning TEXT
+);
+Create TABLE balance_mobility (
+    id SERIAL PRIMARY KEY,
+    test_name TEXT,
+    min_req INTEGER,
+    fitness_level INTEGER,
+    meaning TEXT
+);
