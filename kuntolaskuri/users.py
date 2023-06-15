@@ -54,9 +54,9 @@ def check_input(first_name, last_name, age, sex):
     try:
         age = int(age)
     except:
-        return "Syötetty ikä ei ole numero"
+        return "Syötä ikä väliltä 18-70"
     if age not in range (18, 70):
-        return "Syötetty ikä on alle 18 tai yli 70 vuotta"
+        return "Syötä ikä väliltä 18-70"
     if sex == "":
         return "Sukupuoli on tyhjä, täytä kaikki lomakkeen kentät"
     if sex not in ["mies", "nainen", "muu"]:
