@@ -21,6 +21,12 @@ def login():
             flash("Sisäänkirjaus epäonnistui", category="error")
         return render_template("login.html")
 
+@routes.route("/logout")
+def logout():
+    users.logout()
+    flash("Hei Hei!", category="success")
+    return redirect("/")
+
 @routes.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
     if request.method == "GET":
