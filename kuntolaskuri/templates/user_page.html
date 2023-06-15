@@ -1,12 +1,14 @@
 {% extends "base.html" %} {% block title %}User page{% endblock %} {% block content %}
+<h1 align="center">{{ session["user_name"] }}</h1>
 <p>
-  Etunimi:
+  Etunimi: {{ user[0] }}
   <br />
-  Sukunimi:
+  Sukunimi: {{ user[1] }}
   <br />
-  Ikä:
+  Ikä: {{ user[2] }}
   <br />
-  Sukupuoli:
+  Sukupuoli: {{ user[3] }}
   <br />
+  <a href="/user_page/update">Päivitä tietoja</a>
 </p>
 {% endblock %}

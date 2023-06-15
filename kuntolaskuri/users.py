@@ -19,7 +19,6 @@ def login(username, password):
         else:
             return False
 
-
 def logout():
     del session["user_id"]
     del session["user_name"]
@@ -34,3 +33,46 @@ def register(username, password):
         print("ei onnistu")
         return False
     return login(username, password)
+
+def get_information():
+    try:
+        id_user = session["user_id"]
+        sql = text("SELECT first_name, last_name, age, sex FROM user_info WHERE user_id=:id_user")
+        result = db.session.execute(sql, {"id_user":id_user})
+        user = result.fetchone()
+        return user
+    except:
+        return False
+
+def check_input(first_name, last_name, age, sex):
+    if first_name == "":
+        return "Etunimi on tyhjä, täytä kaikki lomakkeen kentät"
+    if last_name == "":
+        return "Sukunimi on tyhjä, täytä kaikki lomakkeen kentät"
+    if age == "":
+        return "Ikä on tyhjä, täytä kaikki lomakkeen kentät"
+    try:
+        age = int(age)
+    except:
+        return "Syötetty ikä ei ole numero"
+    if age not in range (18, 70):
+        return "Syötetty ikä on alle 18 tai yli 70 vuotta"
+    if sex == "":
+        return "Sukupuoli on tyhjä, täytä kaikki lomakkeen kentät"
+    if sex not in ["mies", "nainen", "muu"]:
+        return "Syötä sukupuolen arvoksi mies, nainen tai muu"
+    else:
+        return "All good everything"
+
+
+def user_update(first_name, last_name, age, sex, id_user):
+    if get_information() == None:
+        sql = text("INSERT INTO user_info (first_name, last_name, age, sex, user_id) VALUES (:first_name,:last_name,:age,:sex,:id_user)")
+        db.session.execute(sql, {"first_name":first_name, "last_name":last_name, "age":age, "sex":sex, "id_user":id_user})
+        db.session.commit()
+        return True
+    else:
+        sql = text("UPDATE user_info SET first_name = :first_name, last_name = :last_name, age = :age, sex = :sex WHERE user_id = :id_user")
+        db.session.execute(sql, {"first_name": first_name, "last_name": last_name, "age": age, "sex": sex, "id_user": id_user})
+        db.session.commit()
+        return True
