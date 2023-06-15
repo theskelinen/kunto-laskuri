@@ -27,3 +27,7 @@ Create TABLE balance_mobility (
     fitness_level INTEGER,
     meaning TEXT
 );
+
+\COPY fitness_tests(test_name, sex, min_age, min_rep, fitness_level, meaning) FROM 'fitness_data.csv' DELIMITER ',' CSV HEADER;
+
+\COPY balance_mobility(test_name, min_req, fitness_level, meaning) FROM 'balance_mobility.csv' DELIMITER ',' CSV HEADER;
