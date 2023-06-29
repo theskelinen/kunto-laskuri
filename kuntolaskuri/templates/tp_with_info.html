@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %}Testisivu{% endblock %} {% block content %}
+<form method="POST">
+    <h3 align="center">Laske kuntoluokka</h3>
+    <div class="form-group">
+        <label for="age">Ikä</label>
+        <input
+          value= {{ user[2] }}
+          type="age"
+          class="form-control"
+          id="age"
+          name="age"
+          placeholder="Syötä ikä välillä 18-70"
+        />
+      </div>
+      <div class="form-group">
+        <label for="sex">Sukupuoli</label>
+        <input
+          value= {{ user[3] }}
+          type="sex"
+          class="form-control"
+          id="sex"
+          name="sex"
+          placeholder="mies/nainen/muu"
+        />
+      </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Hyväksy</button>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  </form>
+  {% endblock %}

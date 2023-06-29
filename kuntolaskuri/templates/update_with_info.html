@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block title %}user.name{% endblock %} {% block content %}
+<form method="POST">
+    <h3 align="center">Päivitä käyttäjätiedot</h3>
+    <div class="form-group">
+      <label for="first_name">Etunimi</label>
+      <input
+        value= {{ user[0] }}
+        type="first_name"
+        class="form-control"
+        id="first_name"
+        name="first_name"
+        placeholder="Syötä etunimi"
+      />
+    </div>
+    <div class="form-group">
+      <label for="last_name">Sukunimi</label>
+      <input
+        value= {{ user[1] }}
+        type="last_name"
+        class="form-control"
+        id="last_name"
+        name="last_name"
+        placeholder="Syötä sukunimi"
+      />
+    </div>
+    <div class="form-group">
+        <label for="age">Ikä</label>
+        <input
+          value= {{ user[2] }}
+          type="age"
+          class="form-control"
+          id="age"
+          name="age"
+          placeholder="Syötä ikä välillä 18-70"
+        />
+      </div>
+      <div class="form-group">
+        <label for="sex">Sukupuoli</label>
+        <input
+          value= {{ user[3] }}
+          type="sex"
+          class="form-control"
+          id="sex"
+          name="sex"
+          placeholder="mies/nainen/muu"
+        />
+      </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Hyväksy</button>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  </form>
+  {% endblock %}

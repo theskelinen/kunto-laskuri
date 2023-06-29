@@ -10,5 +10,7 @@
   Sukupuoli: {{ user[3] }}
   <br />
   <a href="/user_page/update">Päivitä tietoja</a>
+  <button type="submit" class="btn btn-primary">Poista tiedot</button>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </p>
 {% endblock %}

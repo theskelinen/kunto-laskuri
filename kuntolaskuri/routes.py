@@ -53,11 +53,22 @@ def user_page():
         #age = user[2]
         #sex = user[3]
         return render_template("user_page.html", user=user)
+    if request.method == "POST":
+        if users.delete_user_info():
+            flash("Tiedot poistettu", category="success")
+            return redirect("/user_page")
+        else:
+            flash("Tietojen poistaminen epäonnistui", category="error")
+    return redirect("/user_page")
+
 
 @routes.route("/user_page/update", methods=["GET", "POST"])
 def update_user():
     if request.method == "GET":
-        return render_template("update_user.html")
+        user = users.get_information()
+        if user:
+            return render_template("update_with_info.html", user=user)
+        return render_template("update_without_info.html")
     if request.method == "POST":
         id_user = users.session["user_id"]
         first_name = request.form["first_name"]
@@ -67,10 +78,19 @@ def update_user():
         check_input = users.check_input(first_name, last_name, age, sex)
         if check_input != "All good everything":
             flash(check_input, category="error")
-            return render_template("update_user.html")
+            return redirect("/user_page")
         if users.user_update(first_name, last_name, age, sex, id_user):
             flash("Tiedot tallennettu", category="success")
             return redirect("/user_page")
         else:
             flash("Tietojen tallennus epäonnistui", category="error")
-    return render_template("update_user.html")
+    return redirect("/user_page")
+
+@routes.route("/test_page", methods=["GET", "POST"])
+def test_page():
+    if request.method == "GET":
+        user = users.get_information()
+        print(user)
+        if user:
+            return render_template("tp_with_info.html", user=user)
+        return render_template("tp_without_info.html")
