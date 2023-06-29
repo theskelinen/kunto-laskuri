@@ -44,7 +44,7 @@ def sign_up():
             flash("Rekisteröinti epäonnistui", category="error")
         return render_template("sign_up.html")
 
-@routes.route("/user_page", methods=["GET"])
+@routes.route("/user_page", methods=["GET", "POST"])
 def user_page():
     if request.method == "GET":
         user = users.get_information()
@@ -53,13 +53,21 @@ def user_page():
         #age = user[2]
         #sex = user[3]
         return render_template("user_page.html", user=user)
+
+
+@routes.route("/user_page/delete", methods=["GET", "POST"])
+def user_delete():
+    if request.method == "GET":
+        return render_template("delete_page.html")
     if request.method == "POST":
-        if users.delete_user_info():
+        deletion = request.form["deletion"]
+        if deletion == "DELETE_INFO":
+            users.delete_user_info()
             flash("Tiedot poistettu", category="success")
             return redirect("/user_page")
         else:
-            flash("Tietojen poistaminen epäonnistui", category="error")
-    return redirect("/user_page")
+            return redirect("/user_page")
+
 
 
 @routes.route("/user_page/update", methods=["GET", "POST"])

@@ -76,3 +76,11 @@ def user_update(first_name, last_name, age, sex, id_user):
         db.session.execute(sql, {"first_name": first_name, "last_name": last_name, "age": age, "sex": sex, "id_user": id_user})
         db.session.commit()
         return True
+
+def delete_user_info():
+    id_user = session["user_id"]
+    print("täällä")
+    sql = text("DELETE FROM user_info WHERE user_id=:id_user;")
+    db.session.execute(sql, {"id_user":id_user})
+    db.session.commit()
+    return True
