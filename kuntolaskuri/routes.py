@@ -63,8 +63,13 @@ def user_delete():
         deletion = request.form["deletion"]
         if deletion == "DELETE_INFO":
             users.delete_user_info()
-            flash("Tiedot poistettu", category="success")
+            flash("Käyttäjätiedot poistettu", category="success")
             return redirect("/user_page")
+        elif deletion == "DELETE_USER":
+            users.delete_user()
+            flash("Käyttäjä poistettu", category="success")
+            users.logout()
+            return redirect("/")
         else:
             return redirect("/user_page")
 
