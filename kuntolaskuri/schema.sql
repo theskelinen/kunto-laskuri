@@ -10,6 +10,23 @@ CREATE TABLE user_info (
     age INTEGER, 
     sex TEXT, 
     user_id INTEGER REFERENCES users
+
+);
+CREATE TABLE user_results (
+    id SERIAL PRIMARY KEY, 
+    squat_reps INTEGER, 
+    squat_fl  TEXT, 
+    situp_reps INTEGER, 
+    situp_fl  TEXT,
+    ohpress_reps INTEGER, 
+    ohpress_fl  TEXT,
+    balance_time INTEGER, 
+    balance_fl  TEXT,
+    mobility_score INTEGER, 
+    mobility_fl  TEXT,
+    test_date DATE,
+    user_id INTEGER REFERENCES users
+
 );
 Create TABLE fitness_tests (
     id SERIAL PRIMARY KEY,
