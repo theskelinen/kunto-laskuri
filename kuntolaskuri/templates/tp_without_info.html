@@ -8,7 +8,7 @@
           class="form-control"
           id="age"
           name="age"
-          placeholder="Syötä ikä välillä 18-70"
+          placeholder="Ikä välillä 18-70"
         />
       </div>
       <div class="form-group">
@@ -21,8 +21,68 @@
           placeholder="mies/nainen/muu"
         />
       </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Hyväksy</button>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-  </form>
-  {% endblock %}
+      <div class="form-group">
+        <label for="squat_test">Kyykistystesti</label>
+        <input
+          type="squat_test"
+          class="form-control"
+          id="squat_test"
+          name="squat_test"
+          placeholder="Kyykistystestin toistomäärä 30 s"
+        />
+      </div>
+      <div class="form-group">
+        <label for="abs_test">Istumaannousutesti</label>
+        <input
+          type="abs_test"
+          class="form-control"
+          id="abs_test"
+          name="abs_test"
+          placeholder="Istumaannousutestin toistomäärä 30 s"
+        />
+      </div>
+      <div class="form-group">
+        <label for="op_test_right">Yläraajojen dynaaminen nostotesti (oikea)</label>
+        <input
+          type="op_test_right"
+          class="form-control"
+          id="op_test_right"
+          name="op_test_right"
+          placeholder="Yläraajojen nostotestin toistomäärä oikea käsi"
+        />
+      </div>
+      <div class="form-group">
+        <label for="op_test_left">Yläraajojen dynaaminen nostotesti (vasen)</label>
+        <input
+          type="op_test_left"
+          class="form-control"
+          id="op_test_left"
+          name="op_test_left"
+          placeholder="Yläraajojen nostotestin toistomäärä vasen käsi"
+          />
+        </div>
+        <div class="form-group">
+          <label for="sl_balance_test">Yhden jalan seisonta</label>
+          <input
+            type="sl_balance_test"
+            class="form-control"
+            id="sl_balance_test"
+            name="sl_balance_test"
+            placeholder="Yhden jalan seisonta aika 0-60 s (parempi jalka)"
+        />
+        </div>
+          <div class="form-group">
+          <label for="shoulder_mobility_test">Hartiaseudun liikkuvuus</label>
+          <input
+            type="shoulder_mobility_test"
+            class="form-control"
+            id="shoulder_mobility_test"
+            name="shoulder_mobility_test"
+            placeholder="Hartiaseudun liikkuvuus testin yhteenlasketut pisteet"
+        />
+        </div>
+      <br />
+      <button type="submit" class="btn btn-primary">Hyväksy</button>
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    </form>
+    {% endblock %}

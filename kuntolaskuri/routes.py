@@ -74,7 +74,6 @@ def user_delete():
             return redirect("/user_page")
 
 
-
 @routes.route("/user_page/update", methods=["GET", "POST"])
 def update_user():
     if request.method == "GET":
@@ -103,7 +102,6 @@ def update_user():
 def test_page():
     if request.method == "GET":
         user = users.get_information()
-        print(user)
         if user:
             return render_template("tp_with_info.html", user=user)
         return render_template("tp_without_info.html")
