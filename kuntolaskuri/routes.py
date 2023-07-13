@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, flash
 import kuntolaskuri.users as users
+import kuntolaskuri.tests as tests
 
 routes = Blueprint("routes", __name__)
 
@@ -104,4 +105,22 @@ def test_page():
         user = users.get_information()
         if user:
             return render_template("tp_with_info.html", user=user)
-        return render_template("tp_without_info.html")
+        else:
+            return render_template("tp_without_info.html")
+    if request.method == "POST":
+        test_data = request.form
+        age = test_data["age"]
+        sex = test_data["sex"]
+        check_input = users.check_input("Some", "Randomstr", age, sex)
+        if check_input != "All good everything":
+            flash(check_input, category="error")
+            return redirect("/test_page")
+        fitness_levels = {}
+        for test, value in test_data.items():
+            if "test" in test and value != "":
+                fitness_levels[test] = (value, tests.get_fitness_level(age, sex, test, value))
+                print (fitness_levels[test])
+        return redirect("/test_page")
+        
+
+
