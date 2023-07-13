@@ -1,9 +1,9 @@
-Test name, Minimum requirements, Fitness value, Meaning
-tasapainotesti, 0, 1, keskimääräistä alempi tulos
-tasapainotesti, 30, 2, keskimääräinen tulos
-tasapainotesti, 51, 3, keskimääräistä parempi tulos
-nhs_liikkuvuus, 2, 1, heikko
-nhs_liikkuvuus, 4, 2, välttävä
-nhs_liikkuvuus, 6, 3, keskinkertainen
-nhs_liikkuvuus, 8, 4, hyvä
-nhs_liikkuvuus, 10, 5, erinomainen
+Testname,Minimumrequirements,Fitnessvalue,Meaning
+tasapainotesti,0,1,keskimääräistä alempi tulos
+tasapainotesti,30,2,keskimääräinen tulos
+tasapainotesti,51,3,keskimääräistä parempi tulos
+nhs_liikkuvuus_testi,2,1,heikko
+nhs_liikkuvuus_testi,4,2,välttävä
+nhs_liikkuvuus_testi,6,3,keskinkertainen
+nhs_liikkuvuus_testi,8,4,hyvä
+nhs_liikkuvuus_testi,10,5,erinomainen
