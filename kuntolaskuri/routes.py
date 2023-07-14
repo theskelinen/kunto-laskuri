@@ -117,10 +117,9 @@ def test_page():
             return redirect("/test_page")
         fitness_levels = {}
         for test, value in test_data.items():
-            if "test" in test and value != "":
-                fitness_levels[test] = (value, tests.get_fitness_level(age, sex, test, value))
-                print (fitness_levels[test])
-        return redirect("/test_page")
-        
-
-
+            if "test" in test:
+                if value != "":
+                    fitness_levels[test] = (value, tests.get_fitness_level(age, sex, test, value))
+                else:
+                    fitness_levels[test] = (0, (0, "ei tulosta"))
+        return render_template("result_page.html", results=fitness_levels)
