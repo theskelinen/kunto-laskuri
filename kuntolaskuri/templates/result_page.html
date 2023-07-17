@@ -1,22 +1,22 @@
 {% extends "base.html" %} {% block title %}Result page{% endblock %} {% block content %}
 <h1 align="center"> Tulokset: {{ session["user_name"] }}</h1>
 <p P { line-height: 200% }>
-  Kyykistystesti: Toistot: {{ results["kyykistystesti"][0] }}, Kuntoluokka: {{ results["kyykistystesti"][1][0] }}/5, {{ results["kyykistystesti"][1][1] }}
+  Kyykistystesti: Toistot: {{ results["kyykistystesti"][0] }}, Kuntoluokka: {{ results["kyykistystesti"][1] }}/5, {{ results["kyykistystesti"][2] }}
   <br />
-  Istumaannousutesti: Toistot: {{ results["istumaannousutesti"][0] }}, Kuntoluokka: {{ results["istumaannousutesti"][1][0] }}/5, {{ results["istumaannousutesti"][1][1] }}
+  Istumaannousutesti: Toistot: {{ results["istumaannousutesti"][0] }}, Kuntoluokka: {{ results["istumaannousutesti"][1] }}/5, {{ results["istumaannousutesti"][2] }}
   <br />
-  Yläraajojen dynaaminen nostotesti (oikea): Toistot: {{ results["nostotesti_oikea"][0] }}, Kuntoluokka: {{ results["nostotesti_oikea"][1][0] }}/5, {{ results["nostotesti_oikea"][1][1] }}
+  Yläraajojen dynaaminen nostotesti (oikea): Toistot: {{ results["nostotesti_oikea"][0] }}, Kuntoluokka: {{ results["nostotesti_oikea"][1] }}/5, {{ results["nostotesti_oikea"][2] }}
   <br />
-  Yläraajojen dynaaminen nostotesti (vasen): Toistot: {{ results["nostotesti_vasen"][0] }}, Kuntoluokka: {{ results["nostotesti_vasen"][1][0] }}/5, {{ results["nostotesti_vasen"][1][1] }}
+  Yläraajojen dynaaminen nostotesti (vasen): Toistot: {{ results["nostotesti_vasen"][0] }}, Kuntoluokka: {{ results["nostotesti_vasen"][1] }}/5, {{ results["nostotesti_vasen"][2] }}
   <br />
-  Yhden jalan seisonta: Aika: {{ results["tasapainotesti"][0] }} s, Kuntoluokka: {{ results["tasapainotesti"][1][0] }}/3, {{ results["tasapainotesti"][1][1] }}
+  Yhden jalan seisonta: Aika: {{ results["tasapainotesti"][0] }} s, Kuntoluokka: {{ results["tasapainotesti"][1] }}/3, {{ results["tasapainotesti"][2] }}
   <br />
-  Hartiaseudun liikkuvuus: Pisteet: {{ results["nhs_liikkuvuus_testi"][0] }}, Kuntoluokka: {{ results["nhs_liikkuvuus_testi"][1][0] }}/5, {{ results["nhs_liikkuvuus_testi"][1][1] }}
+  Hartiaseudun liikkuvuus: Pisteet: {{ results["nhs_liikkuvuus_testi"][0] }}, Kuntoluokka: {{ results["nhs_liikkuvuus_testi"][1] }}/5, {{ results["nhs_liikkuvuus_testi"][2] }}
   <br />
   <form method="POST">
-    <input type="radio" id="save_results" name="results" value="SAVE">
+    <input type="radio" id="save_results" name="save_status" value="SAVE">
     <label for="save_results">Tallenna tulokset</label><br>
-    <input type="radio" id="don't_save_results" name="results" value="DO_NOT_SAVE">
+    <input type="radio" id="don't_save_results" name="save_status" value="DO_NOT_SAVE">
     <label for="don't_save_results">Jatka ilman tallentamista</label><br>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
