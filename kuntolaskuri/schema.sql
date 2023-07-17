@@ -14,17 +14,11 @@ CREATE TABLE user_info (
 );
 CREATE TABLE user_results (
     id SERIAL PRIMARY KEY, 
-    squat_reps INTEGER, 
-    squat_fl  TEXT, 
-    situp_reps INTEGER, 
-    situp_fl  TEXT,
-    ohpress_reps INTEGER, 
-    ohpress_fl  TEXT,
-    balance_time INTEGER, 
-    balance_fl  TEXT,
-    mobility_score INTEGER, 
-    mobility_fl  TEXT,
-    test_date DATE,
+    test_name TEXT, 
+    test_reps INTEGER, 
+    test_fl INTEGER, 
+    test_fl_meaning TEXT, 
+    test_time TIMESTAMP,
     user_id INTEGER REFERENCES users
 
 );
