@@ -119,7 +119,24 @@ def test_page():
         for test, value in test_data.items():
             if "test" in test:
                 if value != "":
-                    fitness_levels[test] = (value, tests.get_fitness_level(age, sex, test, value))
+                    results = tests.get_fitness_level(age, sex, test, value)
+                    fitness_levels[test] = (value, results[0], results[1])
                 else:
-                    fitness_levels[test] = (0, (0, "ei tulosta"))
-        return render_template("result_page.html", results=fitness_levels)
+                    fitness_levels[test] = (0, 0, "ei tulosta")
+        users.session["test_results"] = fitness_levels
+        return redirect("/result_page")
+
+
+@routes.route("/result_page", methods=["GET", "POST"])
+def result_page():
+    if request.method == "GET":
+        results = users.session["test_results"]
+        return render_template("result_page.html", results=results)
+    if request.method == "POST":
+        save_status = request.form["save_status"]
+        if save_status== "SAVE":
+            if users.save_user_results():
+                flash("Tulokset tallennettu", category="success")
+            else:
+                flash("Tulosten tallennuksessa tapahtui virhe", category="error")
+        return redirect("/")
