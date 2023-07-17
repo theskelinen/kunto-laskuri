@@ -2,6 +2,7 @@ from kuntolaskuri import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 import secrets
+import datetime
 from sqlalchemy.sql import text
 
 def login(username, password):
@@ -15,6 +16,7 @@ def login(username, password):
             session["user_id"] = user.id
             session["user_name"] = user.username
             session["csrf_token"] = secrets.token_hex(16)
+            session["test_results"] = "This will store the user's test results"
             return True
         else:
             return False
@@ -22,6 +24,7 @@ def login(username, password):
 def logout():
     del session["user_id"]
     del session["user_name"]
+    del session["test_results"]
 
 def register(username, password):
     hash_value = generate_password_hash(password)
@@ -90,3 +93,20 @@ def delete_user():
     db.session.execute(sql, {"id_user":id_user})
     db.session.commit()
     return True
+
+def save_user_results():
+    now = str(datetime.datetime.now())
+    id_user = session["user_id"]
+    test_results = session["test_results"]
+    try:
+        for test in test_results:
+            test_name = test
+            test_reps = test_results[test][0]
+            test_fl = test_results[test][1]
+            test_fl_meaning = test_results[test][2]
+            sql = text("INSERT INTO user_results (test_name, test_reps, test_fl, test_fl_meaning, test_time, user_id) VALUES (:test_name,:test_reps,:test_fl,:test_fl_meaning,:test_time,:id_user)")
+            db.session.execute(sql, {"test_name":test_name,"test_reps":test_reps,"test_fl":test_fl,"test_fl_meaning":test_fl_meaning,"test_time":now,"id_user":id_user})
+            db.session.commit()
+            return True
+    except:
+        return False
