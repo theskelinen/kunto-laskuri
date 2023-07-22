@@ -179,8 +179,12 @@ def test_history():
 def result_page():
     if request.method == "GET":
         results = users.session["test_results"]
-        if users.session["user_id"] and not results["saved"]:
-            return render_template("result_page.html", results=results)
+        if not results["saved"]:
+            try:
+                if users.session["user_id"]:
+                    return render_template("result_page.html", results=results)
+            except:
+                pass
         return render_template("result_page_no_save.html", results=results)
     if request.method == "POST":
         save_status = request.form["save_status"]

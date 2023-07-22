@@ -38,14 +38,15 @@ def register(username, password):
     return login(username, password)
 
 def get_information():
-    try:
-        id_user = session["user_id"]
-        sql = text("SELECT first_name, last_name, age, sex FROM user_info WHERE user_id=:id_user")
-        result = db.session.execute(sql, {"id_user":id_user})
-        user = result.fetchone()
-        return user
-    except:
-        return False
+        try:
+            id_user = session["user_id"]
+            sql = text("SELECT first_name, last_name, age, sex FROM user_info WHERE user_id=:id_user")
+            result = db.session.execute(sql, {"id_user":id_user})
+            user = result.fetchone()
+            return user
+        except:
+            return False
+
 
 def check_input(first_name, last_name, age, sex):
     if first_name == "":
@@ -102,41 +103,34 @@ def delete_user_results():
     return True
 
 def save_user_results():
-    try:
-        now = datetime.now()
-        id_user = session["user_id"]
-        test_results = session["test_results"]
-        for test in test_results:
-            if "testi" in test:
-                test_name = test
-                test_reps = test_results[test][0]
-                test_fl = test_results[test][1]
-                test_fl_meaning = test_results[test][2]
-                sql = text("INSERT INTO user_results (test_name, test_reps, test_fl, test_fl_meaning, test_time, user_id) VALUES (:test_name,:test_reps,:test_fl,:test_fl_meaning,:test_time,:id_user)")
-                db.session.execute(sql, {"test_name":test_name,"test_reps":test_reps,"test_fl":test_fl,"test_fl_meaning":test_fl_meaning,"test_time":now,"id_user":id_user})
-        db.session.commit()
-        return True
-    except:
-        return False
+    now = datetime.now()
+    id_user = session["user_id"]
+    test_results = session["test_results"]
+    for test in test_results:
+        if "testi" in test:
+            test_name = test
+            test_reps = test_results[test][0]
+            test_fl = test_results[test][1]
+            test_fl_meaning = test_results[test][2]
+            sql = text("INSERT INTO user_results (test_name, test_reps, test_fl, test_fl_meaning, test_time, user_id) VALUES (:test_name,:test_reps,:test_fl,:test_fl_meaning,:test_time,:id_user)")
+            db.session.execute(sql, {"test_name":test_name,"test_reps":test_reps,"test_fl":test_fl,"test_fl_meaning":test_fl_meaning,"test_time":now,"id_user":id_user})
+    db.session.commit()
+    return True
 
 def get_result_history():
-    try:
-        id_user = session["user_id"]
-        sql = text("SELECT test_time FROM user_results WHERE user_id=:id_user ORDER BY test_time DESC")
-        result = db.session.execute(sql, {"id_user":id_user})
-        history = result.fetchall()
-        duplicates_removed = []
-        [duplicates_removed.append(test_time) for test_time in history if test_time not in duplicates_removed]
-        return duplicates_removed
-    except:
-        return False
+    id_user = session["user_id"]
+    sql = text("SELECT test_time FROM user_results WHERE user_id=:id_user ORDER BY test_time DESC")
+    result = db.session.execute(sql, {"id_user":id_user})
+    history = result.fetchall()
+    duplicates_removed = []
+    [duplicates_removed.append(test_time) for test_time in history if test_time not in duplicates_removed]
+    return duplicates_removed
 
 def get_user_result(result_date):
-    try:
         id_user = session["user_id"]
         sql = text("SELECT test_name, test_reps, test_fl, test_fl_meaning FROM user_results WHERE user_id=:id_user AND test_time=:test_time")
         result = db.session.execute(sql, {"id_user":id_user, "test_time":result_date})
         test_results = result.fetchall()
+        if not test_results:
+            return False
         return test_results
-    except:
-        return False
