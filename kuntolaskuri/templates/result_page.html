@@ -19,7 +19,7 @@
     <input type="radio" id="don't_save_results" name="save_status" value="DO_NOT_SAVE">
     <label for="don't_save_results">Jatka ilman tallentamista</label><br>
     <button type="submit" class="btn btn-primary">Submit</button>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
   </form>
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </p>
 {% endblock %}

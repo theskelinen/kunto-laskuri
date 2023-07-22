@@ -8,7 +8,7 @@
 <label for="save_results">{{history[i][0]}}</label><br>
 {%endfor%}
 <button type="submit" class="btn btn-primary">Submit</button>
-</form>
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
 </p>
 {% endblock %}

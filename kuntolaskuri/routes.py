@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, flash
+from flask import Blueprint, render_template, request, redirect, flash, abort
 import kuntolaskuri.users as users
 import kuntolaskuri.tests as tests
 
@@ -56,13 +56,11 @@ def sign_up():
 def user_page():
     if request.method == "GET":
         """Connects to the next available port.
-
         Args:
             first_name = user[0]
             last_name = user[1]
             age = user[2]
             sex = user[3]
-
         """
         user = users.get_information()
         return render_template("user_page.html", user=user)
@@ -73,6 +71,8 @@ def user_delete():
     if request.method == "GET":
         return render_template("delete_page.html")
     if request.method == "POST":
+        if users.session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         deletion = request.form["deletion"]
         if deletion == "DELETE_INFO":
             users.delete_user_info()
@@ -100,6 +100,8 @@ def update_user():
             return render_template("update_with_info.html", user=user)
         return render_template("update_without_info.html")
     if request.method == "POST":
+        if users.session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         id_user = users.session["user_id"]
         first_name = request.form["first_name"]
         last_name = request.form["last_name"]
@@ -125,6 +127,8 @@ def test_page():
         else:
             return render_template("tp_without_info.html")
     if request.method == "POST":
+        if users.session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         test_data = request.form
         age = test_data["age"]
         sex = test_data["sex"]
@@ -153,6 +157,8 @@ def test_history():
             return redirect("/user_page")
         return render_template("test_history.html", len=len(history), history=history)
     if request.method == "POST":
+        if users.session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         index = int(request.form["result_date"])
         history = users.get_result_history()
         results = users.get_user_result(history[index][0])
@@ -175,6 +181,8 @@ def result_page():
             return render_template("result_page_no_save.html", results=results)
         return render_template("result_page.html", results=results)
     if request.method == "POST":
+        if users.session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         save_status = request.form["save_status"]
         if save_status == "SAVE":
             if users.save_user_results():
