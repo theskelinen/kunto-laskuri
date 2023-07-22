@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block title %}Result page{% endblock %} {% block content %}
+<h1 align="center"> Tulokset: {{ session["user_name"] }}</h1>
+<p P { line-height: 200% }>
+  Kyykistystesti: Toistot: {{ results["kyykistystesti"][0] }}, Kuntoluokka: {{ results["kyykistystesti"][1] }}/5, {{ results["kyykistystesti"][2] }}
+  <br />
+  Istumaannousutesti: Toistot: {{ results["istumaannousutesti"][0] }}, Kuntoluokka: {{ results["istumaannousutesti"][1] }}/5, {{ results["istumaannousutesti"][2] }}
+  <br />
+  Yläraajojen dynaaminen nostotesti (oikea): Toistot: {{ results["nostotesti_oikea"][0] }}, Kuntoluokka: {{ results["nostotesti_oikea"][1] }}/5, {{ results["nostotesti_oikea"][2] }}
+  <br />
+  Yläraajojen dynaaminen nostotesti (vasen): Toistot: {{ results["nostotesti_vasen"][0] }}, Kuntoluokka: {{ results["nostotesti_vasen"][1] }}/5, {{ results["nostotesti_vasen"][2] }}
+  <br />
+  Yhden jalan seisonta: Aika: {{ results["tasapainotesti"][0] }} s, Kuntoluokka: {{ results["tasapainotesti"][1] }}/3, {{ results["tasapainotesti"][2] }}
+  <br />
+  Hartiaseudun liikkuvuus: Pisteet: {{ results["nhs_liikkuvuus_testi"][0] }}, Kuntoluokka: {{ results["nhs_liikkuvuus_testi"][1] }}/5, {{ results["nhs_liikkuvuus_testi"][2] }}
+{% endblock %}
