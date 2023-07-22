@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}Test_history page{% endblock %} {% block content %}
+<h2 align="center">{{ "Testihistoria" }}</h2>
+<h4>Hae tulosta päivämäärällä</h4>
+<p>
+<form method="POST">
+{%for i in range(len)%}
+<input type="radio" id="save_results" name="result_date" value={{i}} checked="checked">
+<label for="save_results">{{history[i][0]}}</label><br>
+{%endfor%}
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</p>
+{% endblock %}
