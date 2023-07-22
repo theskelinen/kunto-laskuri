@@ -8,6 +8,10 @@ routes = Blueprint("routes", __name__)
 def index():
     return render_template("home.html")
 
+@routes.route("/faq_page")
+def faq():
+    return render_template("faq.html")
+
 @routes.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -127,8 +131,6 @@ def test_page():
         else:
             return render_template("tp_without_info.html")
     if request.method == "POST":
-        if users.session["csrf_token"] != request.form["csrf_token"]:
-            abort(403)
         test_data = request.form
         age = test_data["age"]
         sex = test_data["sex"]
@@ -177,16 +179,16 @@ def test_history():
 def result_page():
     if request.method == "GET":
         results = users.session["test_results"]
-        if results["saved"]:
-            return render_template("result_page_no_save.html", results=results)
-        return render_template("result_page.html", results=results)
+        if users.session["user_id"] and not results["saved"]:
+            return render_template("result_page.html", results=results)
+        return render_template("result_page_no_save.html", results=results)
     if request.method == "POST":
-        if users.session["csrf_token"] != request.form["csrf_token"]:
-            abort(403)
         save_status = request.form["save_status"]
         if save_status == "SAVE":
+            if users.session["csrf_token"] != request.form["csrf_token"]:
+                abort(403)
             if users.save_user_results():
                 flash("Tulokset tallennettu", category="success")
             else:
-                flash("Tulosten tallennuksessa tapahtui virhe, olethan kirjautunut sisään?", category="error")
+                flash("Tulosten tallennuksessa tapahtui virhe", category="error")
         return redirect("/")
