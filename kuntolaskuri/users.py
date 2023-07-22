@@ -2,7 +2,7 @@ from kuntolaskuri import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 import secrets
-import datetime
+from datetime import datetime
 from sqlalchemy.sql import text
 
 def login(username, password):
@@ -33,7 +33,6 @@ def register(username, password):
         db.session.execute(sql, {"username":username, "password":hash_value})
         db.session.commit()
     except:
-        print("ei onnistu")
         return False
     return login(username, password)
 
@@ -58,12 +57,12 @@ def check_input(first_name, last_name, age, sex):
         age = int(age)
     except:
         return "Syötä ikä väliltä 18-70"
-    if age not in range (18, 70):
+    if age not in range (18, 71):
         return "Syötä ikä väliltä 18-70"
     if sex == "":
         return "Sukupuoli on tyhjä, täytä kaikki lomakkeen kentät"
-    if sex not in ["mies", "nainen", "muu"]:
-        return "Syötä sukupuolen arvoksi mies, nainen tai muu"
+    if sex not in ["mies", "nainen"]:
+        return "Syötä sukupuolen arvoksi mies tai nainen"
     else:
         return "All good everything"
 
@@ -94,19 +93,49 @@ def delete_user():
     db.session.commit()
     return True
 
-def save_user_results():
-    now = str(datetime.datetime.now())
+def delete_user_results():
     id_user = session["user_id"]
-    test_results = session["test_results"]
+    sql = text("DELETE FROM user_results WHERE user_id=:id_user;")
+    db.session.execute(sql, {"id_user":id_user})
+    db.session.commit()
+    return True
+
+def save_user_results():
     try:
+        now = datetime.now()
+        id_user = session["user_id"]
+        test_results = session["test_results"]
         for test in test_results:
-            test_name = test
-            test_reps = test_results[test][0]
-            test_fl = test_results[test][1]
-            test_fl_meaning = test_results[test][2]
-            sql = text("INSERT INTO user_results (test_name, test_reps, test_fl, test_fl_meaning, test_time, user_id) VALUES (:test_name,:test_reps,:test_fl,:test_fl_meaning,:test_time,:id_user)")
-            db.session.execute(sql, {"test_name":test_name,"test_reps":test_reps,"test_fl":test_fl,"test_fl_meaning":test_fl_meaning,"test_time":now,"id_user":id_user})
-            db.session.commit()
-            return True
+            if "testi" in test:
+                test_name = test
+                test_reps = test_results[test][0]
+                test_fl = test_results[test][1]
+                test_fl_meaning = test_results[test][2]
+                sql = text("INSERT INTO user_results (test_name, test_reps, test_fl, test_fl_meaning, test_time, user_id) VALUES (:test_name,:test_reps,:test_fl,:test_fl_meaning,:test_time,:id_user)")
+                db.session.execute(sql, {"test_name":test_name,"test_reps":test_reps,"test_fl":test_fl,"test_fl_meaning":test_fl_meaning,"test_time":now,"id_user":id_user})
+        db.session.commit()
+        return True
+    except:
+        return False
+
+def get_result_history():
+    try:
+        id_user = session["user_id"]
+        sql = text("SELECT test_time FROM user_results WHERE user_id=:id_user ORDER BY test_time DESC")
+        result = db.session.execute(sql, {"id_user":id_user})
+        history = result.fetchall()
+        duplicates_removed = []
+        [duplicates_removed.append(test_time) for test_time in history if test_time not in duplicates_removed]
+        return duplicates_removed
+    except:
+        return False
+
+def get_user_result(result_date):
+    try:
+        id_user = session["user_id"]
+        sql = text("SELECT test_name, test_reps, test_fl, test_fl_meaning FROM user_results WHERE user_id=:id_user AND test_time=:test_time")
+        result = db.session.execute(sql, {"id_user":id_user, "test_time":result_date})
+        test_results = result.fetchall()
+        return test_results
     except:
         return False
