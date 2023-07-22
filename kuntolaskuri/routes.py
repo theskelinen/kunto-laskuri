@@ -37,22 +37,34 @@ def sign_up():
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
+            flash("Salasanat eivät täsmää", category="error")
+            return render_template("sign_up.html")
+        if password1 == "":
+            flash("Salasana ei voi olla tyhjä", category="error")
+            return render_template("sign_up.html")
+        if username == "":
+            flash("Käyttäjänimi ei voi olla tyhjä", category="error")
             return render_template("sign_up.html")
         if users.register(username, password1):
             flash("Käyttäjä luotu!", category="success")
             return redirect("/")
         else:
-            flash("Rekisteröinti epäonnistui", category="error")
+            flash("Rekisteröinti epäonnistui, käyttäjänimi varattu", category="error")
         return render_template("sign_up.html")
 
 @routes.route("/user_page", methods=["GET", "POST"])
 def user_page():
     if request.method == "GET":
+        """Connects to the next available port.
+
+        Args:
+            first_name = user[0]
+            last_name = user[1]
+            age = user[2]
+            sex = user[3]
+
+        """
         user = users.get_information()
-        #first_name = user[0]
-        #last_name = user[1]
-        #age = user[2]
-        #sex = user[3]
         return render_template("user_page.html", user=user)
 
 
@@ -66,7 +78,12 @@ def user_delete():
             users.delete_user_info()
             flash("Käyttäjätiedot poistettu", category="success")
             return redirect("/user_page")
-        elif deletion == "DELETE_USER":
+        if deletion == "DELETE_RESULTS":
+            users.delete_user_results()
+            flash("Testihistoria poistettu", category="success")
+            return redirect("/user_page")
+        if deletion == "DELETE_USER":
+            users.delete_user_results()
             users.delete_user()
             flash("Käyttäjä poistettu", category="success")
             users.logout()
@@ -116,6 +133,7 @@ def test_page():
             flash(check_input, category="error")
             return redirect("/test_page")
         fitness_levels = {}
+        fitness_levels["saved"] = False
         for test, value in test_data.items():
             if "test" in test:
                 if value != "":
@@ -126,17 +144,41 @@ def test_page():
         users.session["test_results"] = fitness_levels
         return redirect("/result_page")
 
+@routes.route("/test_history", methods=["GET", "POST"])
+def test_history():
+    if request.method == "GET":
+        history = users.get_result_history()
+        if len(history) == 0:
+            flash("Testihistoria on tyhjä", category="error")
+            return redirect("/user_page")
+        return render_template("test_history.html", len=len(history), history=history)
+    if request.method == "POST":
+        index = int(request.form["result_date"])
+        history = users.get_result_history()
+        results = users.get_user_result(history[index][0])
+        if results:
+            test_results = {}
+            test_results["saved"] = True
+            for item in results:
+                test_results[item[0]] = (item[1], item[2], item[3])
+            users.session["test_results"] = test_results
+            return redirect("/result_page")
+        else:
+            flash("Testituloksen haku epäonnistui", category="error")
+            return redirect("/user_page")
 
 @routes.route("/result_page", methods=["GET", "POST"])
 def result_page():
     if request.method == "GET":
         results = users.session["test_results"]
+        if results["saved"]:
+            return render_template("result_page_no_save.html", results=results)
         return render_template("result_page.html", results=results)
     if request.method == "POST":
         save_status = request.form["save_status"]
-        if save_status== "SAVE":
+        if save_status == "SAVE":
             if users.save_user_results():
                 flash("Tulokset tallennettu", category="success")
             else:
-                flash("Tulosten tallennuksessa tapahtui virhe", category="error")
+                flash("Tulosten tallennuksessa tapahtui virhe, olethan kirjautunut sisään?", category="error")
         return redirect("/")
