@@ -50,16 +50,16 @@ def sign_up():
             flash("Salasana ei voi olla yli 32 merkkiä pitkä", category="error")
             return render_template("sign_up.html")
         if username == "":
-            flash("Käyttäjänimi ei voi olla tyhjä", category="error")
+            flash("Käyttäjätunnus ei voi olla tyhjä", category="error")
             return render_template("sign_up.html")
         if len(username) > 16:
-            flash("Käyttäjänimi ei voi olla yli 16 merkkiä pitkä", category="error")
+            flash("Käyttäjätunnus ei voi olla yli 16 merkkiä pitkä", category="error")
             return render_template("sign_up.html")
         if users.register(username, password1):
             flash("Käyttäjä luotu!", category="success")
             return redirect("/")
         else:
-            flash("Rekisteröinti epäonnistui, käyttäjänimi varattu", category="error")
+            flash("Rekisteröinti epäonnistui, käyttäjätunnus varattu", category="error")
         return render_template("sign_up.html")
 
 @routes.route("/user_page", methods=["GET", "POST"])
