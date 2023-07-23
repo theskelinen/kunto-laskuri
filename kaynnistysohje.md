@@ -31,7 +31,7 @@ Kirjoita komentoriville:
 
 4. Määritä tietokannan skeema:
 
-- psql < schema.sql
+- psql < kuntolaskuri/schema.sql
 
 ## Ohjelman suorittaminen
 
