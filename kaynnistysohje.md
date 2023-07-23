@@ -38,3 +38,11 @@ Kirjoita komentoriville:
 Suorittaminen tapahtuu komennolla:
 
 - flask run
+
+## Hyödyllisiä linkkejä
+
+Apua PostgreSQL:n asentamiseen löydät seuraavista osoitteista:
+
+https://github.com/hy-tsoha/local-pg
+
+https://www.postgresql.org/download/
