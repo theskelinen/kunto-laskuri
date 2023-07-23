@@ -2,9 +2,11 @@
 
 Kuntolaskuri on ohjelma, joka laskee käyttäjälle testikohtaisen kuntoluokan.
 
-Kuntolaskuriin on tallennettu ikäkohtaiset viitearvot kolmesta eri testistä, joista kyykistystestillä mitataan alaraajojen lihasvoimaa, istumaannousutestillä keskivartalon lihasvoimaa ja yläraajojen dynaamisella nostotestillä yläraajojen lihasvoimaa.
+Kuntolaskuriin on tallennettu ikäkohtaiset viitearvot kolmesta eri lihaskuntotestistä, joista kyykistystestillä mitataan alaraajojen lihasvoimaa, istumaannousutestillä keskivartalon lihasvoimaa ja yläraajojen dynaamisella nostotestillä yläraajojen lihasvoimaa.
 
-Kuntolaskuri laskee kuntoluokan käyttäjän syöttämien taustatietojen (ikä ja sukupuoli), sekä testissä saadun toistomäärän pohjalta.
+Lisäksi kuntolaskurilla voidaan laskea kuntoluokat Työterveyslaitoksen tasapainotestiin (yhden jalan seisonta) ja hartiaseudun liikkuvuus testiin.
+
+Kuntolaskuri laskee kuntoluokan käyttäjän syöttämien taustatietojen (ikä ja sukupuoli), sekä testissä saadun tuloksen (esim. toistomäärä tai aika) pohjalta.
 
 Käytännössä kuntolaskuri "laskee" kuntoluokan hakemalla sen ohjelmaan tallennetusta tietokannasta käyttäjäsyötteen perusteella. Tietokantaan on syötetty Toimia-tietokannasta löytyvät testikohtaiset viitearvot.
 
