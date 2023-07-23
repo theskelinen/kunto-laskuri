@@ -53,6 +53,10 @@ def check_input(first_name, last_name, age, sex):
         return "Etunimi on tyhjä, täytä kaikki lomakkeen kentät"
     if last_name == "":
         return "Sukunimi on tyhjä, täytä kaikki lomakkeen kentät"
+    if len(first_name) > 15:
+        return "Etunimi ei voi olla yli 15 merkkiä pitkä"
+    if len(last_name) > 15:
+        return "Sukunimi ei voi olla yli 15 merkkiä pitkä"
     if age == "":
         return "Ikä on tyhjä, täytä kaikki lomakkeen kentät"
     try:
