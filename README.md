@@ -10,6 +10,8 @@ Käytännössä kuntolaskuri "laskee" kuntoluokan hakemalla sen ohjelmaan tallen
 
 Kuntoluokka asettuu välille 1-5, jossa 1 = heikko, 2 = välttävä, 3 = keskinkertainen, 4 = hyvä ja 5 = erinomainen.
 
+- [Sovelluksen käynnistysohje](/kaynnistysohje.md)
+
 Linkki Toimia-tietokantaan: https://www.terveyspori.fi/apps/dtk/tmi?toc=802599
 
 Kyykistystesti: https://www.terveysportti.fi/apps/dtk/tmi/article/tmm00056?toc=307488
