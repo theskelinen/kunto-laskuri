@@ -46,8 +46,14 @@ def sign_up():
         if password1 == "":
             flash("Salasana ei voi olla tyhjä", category="error")
             return render_template("sign_up.html")
+        if len(password1) > 32:
+            flash("Salasana ei voi olla yli 32 merkkiä pitkä", category="error")
+            return render_template("sign_up.html")
         if username == "":
             flash("Käyttäjänimi ei voi olla tyhjä", category="error")
+            return render_template("sign_up.html")
+        if len(username) > 16:
+            flash("Käyttäjänimi ei voi olla yli 16 merkkiä pitkä", category="error")
             return render_template("sign_up.html")
         if users.register(username, password1):
             flash("Käyttäjä luotu!", category="success")
@@ -142,11 +148,19 @@ def test_page():
         fitness_levels["saved"] = False
         for test, value in test_data.items():
             if "test" in test:
-                if value != "":
+                if value == "":
+                    fitness_levels[test] = (0, 0, "ei tulosta")
+                else:
+                    try:
+                        int(value)
+                    except:
+                        flash(f"Virhe kentässä \"{test}\", tuloksen tulee olla numero", category="error")
+                        return redirect("/test_page")
+                    if int(value) not in range(0,101):
+                        flash(f"Virhe kentässä \"{test}\", tuloksen tulee olla välillä 0-100", category="error")
+                        return redirect("/test_page")
                     results = tests.get_fitness_level(age, sex, test, value)
                     fitness_levels[test] = (value, results[0], results[1])
-                else:
-                    fitness_levels[test] = (0, 0, "ei tulosta")
         users.session["test_results"] = fitness_levels
         return redirect("/result_page")
 
