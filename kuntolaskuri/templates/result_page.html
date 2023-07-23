@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block title %}Result page{% endblock %} {% block content %}
 <h3 align="center"> Tulokset: {{ session["user_name"] }}</h3>
-<p P { line-height: 200% }>
+<p class="big">
   Kyykistystesti: Toistot: {{ results["kyykistystesti"][0] }}, Kuntoluokka: {{ results["kyykistystesti"][1] }}/5, {{ results["kyykistystesti"][2] }}
   <br />
   Istumaannousutesti: Toistot: {{ results["istumaannousutesti"][0] }}, Kuntoluokka: {{ results["istumaannousutesti"][1] }}/5, {{ results["istumaannousutesti"][2] }}
