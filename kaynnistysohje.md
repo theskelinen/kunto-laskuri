@@ -18,12 +18,42 @@ git clone https://github.com/theskelinen/kunto-laskuri.git
 cd kunto-laskuri
 ```
 
-### 2. Asenna riippuvuudet
+### 2. Luo .env tiedosto
+
+- Luo projektin juureen `.env` tiedosto seuraavalla sisällöllä:
+
+```env
+DATABASE_URL=postgresql+psycopg2://postgres:postgres@db:5432/kuntolaskuri_db
+SECRET_KEY=kopioi luotu salausavain tähän
+```
+#### SECRET_KEY:n generointi
+
+```bash
+# Mac/Linux (Python):
+python3 -c "import secrets; print(secrets.token_hex(16))"
+
+# Windows (PowerShell):
+python -c "import secrets; print(secrets.token_hex(16))"
+
+# Tai käytä salasanageneraattoria, online-työkalua tai kirjoita pitkä satunnainen merkkijono
+```
+
+#### Tarkista, että .env löytyy .gitignore tiedostosta
+
+```bash
+# Tarkista
+cat .gitignore | grep .env
+
+# Jos ei löydy, lisää:
+echo ".env" >> .gitignore
+```
+
+### 3. Asenna riippuvuudet
 
 - Flask-sovellus käyttää Python-riippuvuuksia, jotka on määritelty `requirements.txt`-tiedostossa.
 - Docker hoitaa riippuvuuksien asennuksen automaattisesti, mutta varmista, että tiedosto on mukana projektissa.
 
-### 3. Varmista että Docker Desktop on käynnissä
+### 4. Varmista että Docker Desktop on käynnissä
 
 #### Mac
 - Avaa Docker Desktop -sovellus
@@ -38,7 +68,7 @@ cd kunto-laskuri
 - Voit tarkistaa tilan komennolla: `sudo systemctl status docker`
 - Jos ei ole käynnissä: `sudo systemctl start docker`
 
-### 4. Käynnistä sovellus Dockerilla
+### 5. Käynnistä sovellus Dockerilla
 
 **ENSIMMÄINEN KÄYNNISTYS:**
 ```bash
@@ -49,7 +79,7 @@ docker-compose down -v
 docker-compose up --build
 ```
 
-### 5. Käytä sovellusta selaimessa
+### 6. Käytä sovellusta selaimessa
 
 - Kun kaikki palvelut ovat käynnissä, avaa selain ja siirry osoitteeseen:
   ```
@@ -57,7 +87,7 @@ docker-compose up --build
   ```
 - Sovelluksen pitäisi olla nyt käytettävissä.
 
-### 6. Lopeta sovellus
+### 7. Lopeta sovellus
 
 - Voit pysäyttää sovelluksen painamalla `Ctrl + C` terminaalissa, jossa `docker-compose up` oli käynnissä.
 - Vapauta resurssit tarvittaessa komennolla:
@@ -88,4 +118,4 @@ docker-compose up --build
 ```bash
 # Rakenna uudelleen ilman cachea
 docker-compose build --no-cache
-docker-compose up
+docker-compose up- Generoi turvallinen `SECRET_KEY`:
