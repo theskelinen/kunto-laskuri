@@ -1,52 +1,91 @@
-## Ennakkotoimenpiteet
+# Kunto-laskuri - Käynnistysohjeet
 
-1. Kloonaa repositorio koneellesi ja siirry sen juurikansioon
-2. Luo kansioon .env tiedosto ja määritä sen sisältö seuraavanlaiseksi:
+## Yleiskuvaus
 
-   DATABASE_URL=postgresql+psycopg2:///user
-   
-   SECRET_KEY= Oma salainen avaimesi
+Kunto-laskuri on Flask-pohjainen web-sovellus kuntotestien tulosten tallentamiseen ja analysointiin.
 
-Tässä "user" on oma käyttäjäkohtainen tunnuksesi.
+## Vaatimukset
 
-SECRET_KEY:n voit luoda Pythonin tulkin kautta seuraavasti:
+- Docker Desktop (Mac/Windows) tai Docker Engine (Linux)
+- Git
 
-Kirjoita komentoriville:
-- python3
-- import secrets
-- secrets.token_hex(16)
-- kopioi avain
+## Asennus ja käynnistys
 
-3. Asenna PostgreSQL tietokanta, mikäli sitä ei ole asennettu
+### 1. Kloonaa repositorio
 
-Ohjeita asentamiseen löydät:
+```bash
+git clone https://github.com/theskelinen/kunto-laskuri.git
+cd kunto-laskuri
+```
 
-https://github.com/hy-tsoha/local-pg
+### 2. Asenna riippuvuudet
 
-https://www.postgresql.org/download/
+- Flask-sovellus käyttää Python-riippuvuuksia, jotka on määritelty `requirements.txt`-tiedostossa.
+- Docker hoitaa riippuvuuksien asennuksen automaattisesti, mutta varmista, että tiedosto on mukana projektissa.
 
-## Asennus
+### 3. Varmista että Docker Desktop on käynnissä
 
-1. Aktivoi virtuaaliympäristö komennoilla:
+#### Mac
+- Avaa Docker Desktop -sovellus
+- Odota että Docker on käynnistynyt (ikoni menu barissa ei ole harmaana)
 
-- python3 -m venv venv
+#### Windows
+- Avaa Docker Desktop -sovellus
+- Odota että Docker on käynnistynyt (ikoni system trayssa näyttää että Docker on käynnissä)
 
-- source venv/bin/activate
-  
-3. Asenna riippuvuudet komennolla:
+#### Linux
+- Docker daemon käynnistyy automaattisesti
+- Voit tarkistaa tilan komennolla: `sudo systemctl status docker`
+- Jos ei ole käynnissä: `sudo systemctl start docker`
 
-- pip install -r ./requirements.txt
+### 4. Käynnistä sovellus Dockerilla
 
-4. Määritä tietokannan skeema:
+**ENSIMMÄINEN KÄYNNISTYS:**
+```bash
+# Poista vanhat volumet jos olemassa
+docker-compose down -v
 
-- psql < kuntolaskuri/schema.sql
+# Käynnistä palvelut
+docker-compose up --build
+```
 
-## Ohjelman suorittaminen
+### 5. Käytä sovellusta selaimessa
 
-Suorittaminen tapahtuu komennolla:
+- Kun kaikki palvelut ovat käynnissä, avaa selain ja siirry osoitteeseen:
+  ```
+  http://localhost:5000
+  ```
+- Sovelluksen pitäisi olla nyt käytettävissä.
 
-- flask run
+### 6. Lopeta sovellus
 
-Ohjelma toimii selaimessa ja pääset siihen klikkaamalla ctrl pohjassa paikallista osoitetta:
+- Voit pysäyttää sovelluksen painamalla `Ctrl + C` terminaalissa, jossa `docker-compose up` oli käynnissä.
+- Vapauta resurssit tarvittaessa komennolla:
+  ```bash
+  docker-compose down
+  ```
+## Vianmääritys
 
-![Screenshot from 2023-07-23 17-54-51](https://github.com/theskelinen/kunto-laskuri/assets/81574636/7b4d99b7-54dd-4d61-9e93-679a1f062f38)
+### 1. Portti 5000 on jo käytössä
+```bash
+# Tarkista mikä käyttää porttia
+# Mac/Linux:
+lsof -i :5000
+# Windows (PowerShell):
+netstat -ano | findstr :5000
+
+# Pysäytä vanha prosessi tai muuta porttia docker-compose.yml:ssä
+```
+
+### 2. Tietokanta ei käynnisty
+```bash
+# Poista vanhat volumet ja käynnistä uudelleen
+docker-compose down -v
+docker-compose up --build
+```
+
+### 3. Docker cache -ongelmat
+```bash
+# Rakenna uudelleen ilman cachea
+docker-compose build --no-cache
+docker-compose up

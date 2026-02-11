@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: kuntolaskuri_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./kuntolaskuri/fitness_data.csv:/docker-entrypoint-initdb.d/fitness_data.csv
+      - ./kuntolaskuri/balance_mobility.csv:/docker-entrypoint-initdb.d/balance_mobility.csv
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/kuntolaskuri_db
+      FLASK_ENV: development
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
